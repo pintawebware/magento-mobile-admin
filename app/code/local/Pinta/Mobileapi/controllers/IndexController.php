@@ -322,14 +322,6 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
         }
     }
 
-//     *@apiParam {Array} filter array of the filter params.
-//     * @apiParam {String} filter.fio full name of the client.
-//     * @apiParam {String} filter.order_status_id unique id of the order.
-//     * @apiParam {Number} filter.min_price=1 min price of order.
-//     * @apiParam {Number} filter.max_price max price of order.
-//     * @apiParam {Date} filter.date_min min date adding of the order.
-//     * @apiParam {Date} filter.date_max max date adding of the order.
-
     /**
      * @api {get} /getOrders  getOrders
      * @apiVersion 0.1.0
@@ -442,9 +434,6 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
             $limit = 9999;
         }
 
-//        if (isset($_REQUEST['filter'])) {
-//            $orders = $this->getOrders(array('filter' => $_REQUEST['filter'], 'page' => $page, 'limit' => $limit));
-//        } elseif (isset($_REQUEST['platform']) && $_REQUEST['platform'] == 'android') {
         if (isset($_REQUEST['order_status_id']) || isset($_REQUEST['fio']) || isset($_REQUEST['min_price']) || isset($_REQUEST['max_price']) || isset($_REQUEST['date_min']) || isset($_REQUEST['date_max'])) {
             $filter = [];
             if (isset($_REQUEST['order_status_id']) && $_REQUEST['order_status_id'] !== '') {
@@ -466,14 +455,14 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
 
             $filter['date_min'] = $_REQUEST['date_min'];
             $filter['date_max'] = $_REQUEST['date_max'];
-//            var_export($filter);
+
             $orders = $this->getOrders(array('filter' => $filter, 'page' => $page, 'limit' => $limit));
         } else {
             $orders = $this->getOrders(array('page' => $page, 'limit' => $limit));
         }
         $response = [];
         $orders_to_response = [];
-        //                return var_export($orders);
+
         foreach ($orders as $order) {
             if ($order['entity_id'] !== null) {
                 $data['order_number'] = $order['entity_id'];
@@ -498,7 +487,6 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
 
         $answer_json = json_encode(['version' => $this->API_VERSION, 'response' => $response, 'status' => true]);
 
-        //        return var_export(count($orders));
         return $this->answer($answer_json);
     }
 
@@ -579,15 +567,12 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
             $id = $_REQUEST['order_id'];
 
             $order = $this->getOrderById($id);
-            //            return var_export(count($order));
+
             if (count($order) > 0) {
                 $data['order_number'] = $order[0]['entity_id'];
 
-                //                if (isset($order[0]['firstname']) && isset($order[0]['lastname'])) {
                 $data['fio'] = $order[0]['customer_firstname'] . ' ' . $order[0]['customer_lastname'];
-                //                } else {
-                //                    $data['fio'] = $order[0]['payment_firstname'] . ' ' . $order[0]['payment_lastname'];
-                //                }
+
                 if (isset($order[0]['customer_email'])) {
                     $data['email'] = $order[0]['customer_email'];
                 } else {
@@ -685,7 +670,7 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
             $id = $_REQUEST['order_id'];
 
             $order = $this->getPaymentAndShippingById($id);
-            //            var_dump($order);
+
             if ($order['error'] == null) {
                 $answer_json = json_encode([
                     'version' => $this->API_VERSION,
@@ -797,8 +782,6 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
             $dataAnswer = [];
 
             foreach ($items as $key => $item) {
-//                var_export($order->getData());
-//                exit();
                 $productIds[] = $item->getProductId();
                 $_product = Mage::getModel('catalog/product')
                     ->setStoreId($item->getOrder()->getStoreId())
@@ -1126,9 +1109,6 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
             $client_id = $_REQUEST['client_id'];
 
             $clientInfo = $this->getClientInfo($client_id);
-            //            echo '<pre>';
-            //            var_export($clientInfo);
-            //            echo '</pre>';
 
             $answer_json = json_encode([
                 'version' => $this->API_VERSION,
@@ -1217,36 +1197,28 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
             if (isset($_REQUEST['sort']) && $_REQUEST['sort'] != '') {
                 switch ($_REQUEST['sort']) {
                     case 'date_added':
-//                        $sort = 'date_added';
                         $sort = 'created_at'; //from db
                         break;
                     case 'total':
-//                        $sort = 'total';
                         $sort = 'grand_total'; //from db
                         break;
                     case 'completed':
-                        //$sort = 'completed';
                         $sort = 'complete'; //from db
                         break;
                     case 'cancelled':
-//                        $sort = 'cancelled';
                         $sort = 'canceled';
                         break;
                     default:
-//                        $sort = 'date_added';
                         $sort = 'created_at'; //from db
                 }
             } else {
-//                $sort = 'date_added';
                 $sort = 'created_at'; //from db
             }
 
             $orders['orders'] = $this->getClientOrders($client_id, $sort);
-//            $orders = $this->getClientOrders($client_id, $sort);
+
             if (count($orders['orders']) > 0) {
-//                echo '<pre>';
-//                var_export($orders);
-//                echo '</pre>';
+
                 $answer_json = json_encode([
                     'version' => $this->API_VERSION,
                     'response' => $orders,
@@ -1428,9 +1400,7 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
                     'status' => true
                 ], JSON_UNESCAPED_UNICODE);
                 return $this->answer($answer_json);
-//                echo '<pre>';
-//                var_export($productInfo);
-//                echo '</pre>';
+
             } else {
                 $answer_json = json_encode(['version' => $this->API_VERSION, 'error' => 'Can not found order with id = ' . $_REQUEST['product_id'], 'status' => false]);
                 return $this->answer($answer_json);
@@ -1492,10 +1462,7 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
         }
 
         if (isset($_REQUEST['comment']) && isset($_REQUEST['status_id']) && $_REQUEST['status_id'] != '' && isset($_REQUEST['order_id']) && $_REQUEST['order_id'] != '') {
-//            echo '<br><pre>';
-//            var_export($_REQUEST);
-//            echo '<br><-------------------------------><br>';
-//            echo '</pre>';
+
             $updateStatusAnswer = $this->updateOrderStatus($_REQUEST['order_id'], $_REQUEST['status_id'], $_REQUEST['comment'], (boolean)$_REQUEST['inform']);
             if (count($updateStatusAnswer)) {
                 $answer_json = json_encode([
@@ -1508,20 +1475,12 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
                 $answer_json = json_encode(['version' => $this->API_VERSION, 'error' => 'Missing some params', 'status' => false]);
                 return $this->answer($answer_json);
             }
-//            echo '<pre>';
-//            var_export($order->getData());
-//            return $order->getVisibleStatusHistory();
-//            echo '</pre>';
+
         } else {
             $answer_json = json_encode(['version' => $this->API_VERSION, 'error' => 'Missing some params', 'status' => false]);
             return $this->answer($answer_json);
         }
-//        $statuses2 = $this->OrderStatusList();
-//        echo '<br><pre>';
-//        var_export($statuses2);
-//        echo '<br><-------------------------------><br>';
-//        echo '</pre>';
-//        return;
+
     }
 
     /**
@@ -1698,18 +1657,8 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
 
     public function indexAction()
     {
-
-//        $sendNotifications =
         $this->sendNotifications($_REQUEST['order_id']);
-//        var_export($sendNotifications);
-        //        $news = Mage::getModel('pintamobileapi/mobileapi')->getCollection();
 
-        //        var_dump($news);
-        //        foreach ($news as $new) {
-        //            echo $new->getId().'<br>';
-        //            echo $new->getUser_id().'<br>';
-        //            echo $new->getToken();
-        //        }
         echo '<h1>News</h1>';
     }
 
@@ -1777,10 +1726,9 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
     public function setUserToken($user_id, $token)
     {
         Mage::app();
-//        var_export($user_id);
-//        var_export($token);
+
         $userTokenToDB = Mage::getModel('pintamobileapi/mobileapi')
-//            ->getCollection()
+
         ;
         $userTokenToDB->setUserId($user_id);
         $userTokenToDB->setToken($token);
@@ -1949,10 +1897,9 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
             if (isset($data['filter']['min_price']) && isset($data['filter']['max_price']) && $data['filter']['max_price'] != '' && $data['filter']['max_price'] != 0 && $data['filter']['min_price'] !== 0 && $data['filter']['min_price'] !== '') {
                 $query .= " AND o.grand_total > \"" . $data['filter']['min_price'] . "\" AND o.grand_total <= \"" . $data['filter']['max_price'] . "\"";
             }
-            //            var_export($data['filter']['min_price']);
+
             if (isset($data['filter']['date_min']) && $data['filter']['date_min'] != '') {
                 $date_min = date('y-m-d', strtotime($data['filter']['date_min']));
-                //                var_export($date_min);
                 $query .= " AND DATE_FORMAT(o.created_at,\"%y-%m-%d\") > \"" . $date_min . "\"";
             }
             if (isset($data['filter']['date_max']) && $data['filter']['date_max'] != '') {
@@ -1963,12 +1910,9 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
             $query .= " WHERE o.status != \"pending\" ";
         }
         $query .= " GROUP BY o.entity_id ORDER BY o.entity_id DESC";
-        //        var_export($query);
-        //        die();
+
         $total_sum = $orders->fetchAll($query);
-        //        echo '<pre>';
-        //        var_export($total_sum);
-        //        echo '</pre>';
+
         $sum = 0;
         $quantity = 0;
         foreach ($total_sum as $value) {
@@ -2009,9 +1953,6 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
             'main_table.status=' . $tableOrdersStatusState . '.status',
             array('state', 'is_default')
         )->where('is_default!=0');
-//        echo '<pre>';
-//        var_export($collection->getData());
-//        echo '</pre>';
         $statuses = [];
         $key = 0;
         foreach ($collection as $status) {
@@ -2060,17 +2001,17 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
     public function getPaymentAndShippingById($id)
     {
         $order = Mage::getModel("sales/order")->load($id);
-        //        var_dump($order->getData());
+
         $data = [];
         if (count($order->getData()) !== 0) {
             $data['error'] = null;
-            //        $shipping_method = $order->getShippingMethod(); //Fetch the shipping method from order
+
             $payment_method_title = $order->getPayment()->getMethodInstance()->getTitle(); //Fetch the payment method code from order
-            //        $billing_method_address = $order->getBillingAddress()->getData(); //Fetch the shipping method from order
+
             if ($order->getShippingMethod() !== null) {
                 $shipping_method_description = $order->getShippingDescription();
                 $shipping_method_address = $order->getShippingAddress()->getData();
-                //            $payment_method_code = $order->getPayment()->getMethodInstance()->getCode(); //Fetch the payment method code from order
+
                 $country = Mage::getModel('directory/country')->loadByCode($shipping_method_address['country_id']);
 
                 $data['answer']['payment_method'] = $payment_method_title;
@@ -2085,12 +2026,12 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
                     $data['answer']['shipping_address'] .= ', ' . $shipping_method_address['region'];
                 }
                 $data['answer']['shipping_address'] .= ', ' . $country->getName();
-                //                var_export($data);
+
             } else {
                 $data['answer']['payment_method'] = $payment_method_title;
                 $data['answer']['shipping_method'] = '';
                 $data['answer']['shipping_address'] = '';
-                //                var_export($data);
+
             }
         } else {
             $data['error'] = 'error';
@@ -2101,20 +2042,13 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
 
     public function getClients($data = array())
     {
-        //        echo '<pre>';
-        //        var_export($data);
-        //        echo '</pre>';
         $tablesCollection = Mage::getSingleton('core/resource')->getConnection('core_read');
 
         $collectionUsers = Mage::getModel('customer/customer')->getCollection()
             ->addAttributeToSelect('firstname')
             ->addAttributeToSelect('lastname')
             ->addAttributeToSelect('email');
-        //        echo '<pre>';
-        //        foreach ($collectionUsers as $collectionUser) {
-        //            var_export($collectionUser->getData());
-        //        }
-        //        echo '</pre>';
+
         if (isset($data['fio']) && $data['fio'] != '') {
             $params = [];
             $newparam = explode(' ', $data['fio']);
@@ -2126,8 +2060,6 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
                     $params[] = $value;
                 }
             }
-
-            //            var_export($params);
 
             $tableCustomersName = $tablesCollection->getTableName('customer_entity_varchar');
             $query = "SELECT `entity_id` FROM " . $tableCustomersName . " WHERE ";
@@ -2147,11 +2079,10 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
             $collectionUsers->addFieldToFilter('entity_id', array('in' => $usersIdsUnitedArray));
         }
         $collectionUsers->getSelect()->limit((int)$data['limit'], (int)$data['page']);
-        //        $i = 1;
+
         $dataFullAnswer = array();
         foreach ($collectionUsers as $user) {
-            //            echo 'Client# ' . $i;
-            //            $i++;
+
             $collectionOrderByUser = Mage::getModel('sales/order')
                 ->getCollection()
                 ->addAttributeToSelect('grand_total')
@@ -2181,9 +2112,7 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
             }
             $dataFullAnswer[] = $dataAnswer;
         }
-//        echo '<pre>';
-//        var_export($dataFullAnswer);
-//        echo '</pre>';
+
         if (isset($data['order']) && $data['order'] !== '') {
             switch ($data['order']) {
                 case 'quantity':
@@ -2203,9 +2132,7 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
                     break;
             }
         }
-        //        echo '<pre>';
-        //        var_export($dataFullAnswer);
-        //        echo '</pre>';
+
         return $dataFullAnswer;
     }
 
@@ -2234,10 +2161,7 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
         } else {
             $answerUserInfo['telephone'] = str_replace(' ', '-', $userInfo->getPrimaryBillingAddress()->getTelephone());
         }
-        //        echo '<pre>';
-        //        var_export($answerUserInfo);
-        //        echo '</pre>';
-        //        $userInfo->getPrimaryBillingAddress();
+
         return $answerUserInfo;
     }
 
@@ -2272,7 +2196,6 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
 
     private function getClientOrders($client_id, $sort)
     {
-//        var_export($sort);
         $tablesCollection = Mage::getSingleton('core/resource')->getConnection('core_read');
         $collectionOrderByUser = Mage::getModel('sales/order')
             ->getCollection()
@@ -2316,10 +2239,7 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
         $answer = array();
         $keyOrders = 0;
         $currency_code = $this->getDefaultCurrency();
-//        echo (string)$collectionOrderByUser->getSelect().'<br>';
-//        echo (string)$collectionOrderWithOtherStatusesByUser->getSelect();
         foreach ($collectionOrderByUser as $orderByUserWithStatus) {
-//            $answer[$keyOrders]['user_id'] = $orderByUserWithStatus->getCustomerId();
             $answer[$keyOrders]['order_id'] = $orderByUserWithStatus->getEntityId();
             $answer[$keyOrders]['order_number'] = $orderByUserWithStatus->getEntityId();
             $answer[$keyOrders]['status'] = $orderByUserWithStatus->getLabel();
@@ -2330,7 +2250,6 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
         }
         if ($sort == 'canceled' && $sort == 'complete') {
             foreach ($collectionOrderWithOtherStatusesByUser as $orderByUserWithOtherStatuses) {
-//                $answer[$keyOrders]['user_id'] = $orderByUserWithOtherStatuses->getCustomerId();
                 $answer[$keyOrders]['order_id'] = $orderByUserWithOtherStatuses->getEntityId();
                 $answer[$keyOrders]['order_number'] = $orderByUserWithOtherStatuses->getEntityId();
                 $answer[$keyOrders]['status'] = $orderByUserWithOtherStatuses->getLabel();
@@ -2340,10 +2259,6 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
                 $keyOrders++;
             }
         }
-//        echo '<pre>';
-//        var_export($answer);
-//        var_export($collectionOrderByUser->getData());
-//        echo '</pre>';
 
         return $answer;
     }
@@ -2369,13 +2284,8 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
 
         $currencyCode = $this->getDefaultCurrency();
         $answer = array();
-//        echo '<pre>';
         if (count($allProducts->getData()) > 0) {
             foreach ($allProducts as $oneProduct) {
-//            $name = $oneProduct->getName();
-//            echo $name . '<br>';
-//            $_product = $allProducts->load($oneProduct->getEntityId());
-//            echo 'ky<br>';
 
                 $product['product_id'] = $oneProduct->getEntityId();
                 $product['name'] = $oneProduct->getName();
@@ -2385,17 +2295,8 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
                 $thumbail_src = $imageHelper->init($oneProduct, 'thumbnail')->resize(200, 200);
                 $product['image'] = (string)$thumbail_src;
                 $answer[] = $product;
-//            var_export($oneProduct->getData());
             }
         }
-//        else {
-//            $answer = '';
-//        }
-//        var_export($answer);
-//        echo '<br>ky-ky<br>';
-//        $tmp = $allProducts->getData();
-//        var_export($tmp);
-//        echo '</pre>';
 
         return $answer;
     }
@@ -2404,26 +2305,10 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
     {
         $tablesCollection = Mage::getSingleton('core/resource')->getConnection('core_read');
         $allProductInfo = Mage::getModel('catalog/product')->load($product_id);
-//            ->addAttributeToSelect(array('name', 'price', 'thumbnail'))
-//            $allProductInfo->getSelect()->joinField('qty',
-//                $tablesCollection->getTableName('cataloginventory/stock_item'),
-//                'qty',
-//                'product_id=entity_id',
-//                '{{table}}.stock_id=1',
-//                'left')
-//        ;
-//        $allProductInfo->getSelect()->joinLeft(
-//            $tablesCollection->getTableName('cataloginventory/stock_item'),
-//            'main_table.product_id=' . $tablesCollection->getTableName('cataloginventory/stock_item') . '.entity_id',
-//            array('qty')
-//        );
+
         $stock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($allProductInfo->getEntityId());
         $imageHelper = Mage::helper('catalog/image');
-//        $productMediaConfig = Mage::getModel('catalog/product_media_config');
-//
-//        $baseImageUrl  = $productMediaConfig->getMediaUrl($allProductInfo->getImage());
-//        $smallImageUrl = $productMediaConfig->getMediaUrl($allProductInfo->getSmallImage());
-//        $thumbnailUrl  = $productMediaConfig->getMediaUrl($allProductInfo->getThumbnail());
+
         $images = $allProductInfo->getMediaGalleryImages();
 
         if (count($allProductInfo->getEntityId()) > 0) {
@@ -2432,50 +2317,34 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
             $answer['price'] = number_format($allProductInfo->getPrice(), 2, '.', '');
             $answer['currency_code'] = $this->getDefaultCurrency();
             $answer['quantity'] = number_format($stock->getQty(), 0);
-//            $answer['thumbnail'] = $allProductInfo->getThumbnail();
+
             $answer['description'] = $allProductInfo->getDescription();
             $thumbail_src = $imageHelper->init($allProductInfo, 'image')->resize(200, 200);
             $answer['images'][0] = (string)$thumbail_src;
-//            echo '<pre>';
-//            var_export($images);
-//            echo '<br><---------------------------><br>';
+
             $imagesByProduct = $allProductInfo->getData('media_gallery');
-//            var_export($imagesByProduct['images']);
-//            echo '<br>=========================================================================================<br>';
+
             if (count($imagesByProduct['images']) > 0) {
                 foreach ($images as $image) {
                     $imgTmpArr[] = $image->getFile();
-//                var_export($image);
-//                $thumbail_src = $imageHelper->init($allProductInfo,'image',$image->getFile())->resize(200, 200);
-//                $answer['images'][] = (string)$thumbail_src;
                 }
-//                if (count($imgTmpArr) > 1) {
+
                 unset($imgTmpArr[array_search($allProductInfo->getImage(), $imgTmpArr)]);
                 foreach ($imgTmpArr as $imgTmp) {
                     $thumbail_src = $imageHelper->init($allProductInfo, 'image', $imgTmp)->resize(200, 200);
                     $answer['images'][] = (string)$thumbail_src;
                 }
-//                }
+
             }
-//            var_export($imgTmpArr);
-//            echo '</pre>';
-//            $answer['main_image'] = $thumbnailUrl;
-//            $answer['smallImageUrl'] = $smallImageUrl;
-//            $answer['baseImageUrl'] = $baseImageUrl;
         } else {
             $answer = '';
         }
-//        echo '<pre>';
-//        var_export($answer);
-//        echo '<br>';
-//        var_export($allProductInfo->getData());
-//        echo '</pre>';
+
         return $answer;
     }
 
     private function updateOrderStatus($orderID, $statusID, $comment = '', $inform = false)
     {
-//        var_export($inform);
         $order = Mage::getModel('sales/order')->load($orderID);
         $answer = array();
         if (count($order->getData()) > 0) {
@@ -2485,45 +2354,35 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
                      * change order status to 'Completed'
                      */
                     var_dump($inform);
-//        $order->setState(Mage_Sales_Model_Order::STATE_COMPLETE, true)->save();
-//                $order->addStatusHistoryComment(Mage_Sales_Model_Order::STATE_COMPLETE,$comment,$inform);
                     $order->setData('state', 'complete');
                     $order->setStatus('complete');
-//                    $history = $order->addStatusHistoryComment($comment, true);
-//                    $history->setIsCustomerNotified(true);
 
                     $history = $order->addStatusToHistory($statusID, $comment, $inform);
 
-//                    $status = Mage::getModel('sales/order_status_history')
-//                        ->setStatus($statusID)
-//                        ->setComment($comment)
-//                        ->setIsCustomerNotified($inform);
-//                    $status->addStatusHistory($status);
-
                     $order->save();
-//                    echo $statusID;
+
                     break;
                 case 'pending':
                     /**
                      * change order status to 'Pending'
                      */
-//                    var_export($inform);
+
                     $order->setState(Mage_Sales_Model_Order::STATE_NEW, $statusID, $comment, $inform)->save();
-//                    echo $statusID;
+
                     break;
                 case 'pending_payment':
                     /**
                      * change order status to 'Pending'
                      */
                     $order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, $statusID, $comment, $inform)->save();
-//                    echo $statusID;
+
                     break;
                 case 'processing':
                     /**
                      * change order status to 'Processing'
                      */
                     $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, $statusID, $comment, $inform)->save();
-//                    echo $statusID;
+
                     break;
                 case 'closed':
                     /**
@@ -2531,13 +2390,11 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
                      */
                     $order->setData('state', 'closed');
                     $order->setStatus('closed');
-//                    $history = $order->addStatusHistoryComment($comment, true);
-//                    $history->setIsCustomerNotified($inform);
+
                     $order->addStatusToHistory($statusID, $comment, $inform);
 
                     $order->save();
-//                $order->setState(Mage_Sales_Model_Order::STATE_CLOSED, true)->save();
-//                    echo $statusID;
+
                     break;
                 case 'canceled':
                     /**
@@ -2546,29 +2403,17 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
 
                     $order->cancel();
                     $order->setState(Mage_Sales_Model_Order::STATE_CANCELED, $statusID, $comment, $inform)->save();
-//                    echo $statusID;
+
                     break;
                 case 'holded':
                     /**
                      * change order status to 'Holded'
                      */
-//                    $order->setState(Mage_Sales_Model_Order::STATE_HOLDED, true)->save();
+
                     $order->setState(Mage_Sales_Model_Order::STATE_HOLDED, $statusID, $comment, $inform)->save();
-//                    $history = $order->addStatusToHistory($statusID, $comment, true);
-//                    $history->setIsCustomerNotified($inform);
-//
-//                    $order->save();
-//                    echo $statusID;
+
                     break;
             }
-//            if($comment!=='') {
-//                $history = $order->addStatusToHistory($statusID, $comment, true);
-//                $history->setIsCustomerNotified($inform);
-//
-//                $order->save();
-//                var_export($comment);
-//            }
-
 
             $answer['name'] = $collection = Mage::getModel('sales/order_status')->load($statusID)->getData('label');
             $answer['date_added'] = $order->getStatusHistoryCollection()->getFirstItem()->getData('updated_at');
@@ -2590,14 +2435,8 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
         }
 
         $order = $this->getOrderByIdTmp($order_id);
-//        $order = $order[0];
-//        var_export(count($order));
-//        Mage::log('Grand order sum: ' . $order[0]['grand_total']);
-//        return ;
 
         if (count($order)>0) {
-//            var_export('OK');
-//            return;
             $msg = array(
                 'body' => number_format($order['grand_total'], 2, '.', ''),
                 'title' => "http://" . $_SERVER['HTTP_HOST'],
@@ -2670,7 +2509,6 @@ class Pinta_Mobileapi_IndexController extends Mage_Core_Controller_Front_Action
         $orderCollection = Mage::getModel('sales/order')
             ->load($order_id);
 
-//        var_export($orderCollection->getData());
         return $orderCollection->getData();
     }
 }
