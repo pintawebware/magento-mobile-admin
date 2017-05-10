@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Envato_Customapimodule>
+            <version>1.0</version>
+        </Envato_Customapimodule>
+    </modules>
+    <global>
+        <models>
+            <customapimodule>
+                <class>Envato_Customapimodule_Model</class>
+            </customapimodule>
+        </models>
+        <helpers>
+            <customapimodule>
+                <class>Envato_Customapimodule_Helper</class>
+            </customapimodule>
+        </helpers>
+    </global>
+</config>

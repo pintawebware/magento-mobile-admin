@@ -1,0 +1,85 @@
+<config>
+    <api>
+            <!--<resources>-->
+            <!--</resources>-->
+            <!--<acl>-->
+                <!--<resources>-->
+                    <!--<all>-->
+                    <!--</all>-->
+                <!--</resources>-->
+            <!--</acl>-->
+
+        <resources>
+            <customer translate="title" module="customer">
+                <model>customer/api</model> <!-- our model -->
+                <title>Customer Resource</title>
+                <acl>customer</acl>
+                <methods>
+                    <list translate="title" module="customer">
+                        <title>Retrive customers</title>
+                        <method>items</method> <!-- we have another method name inside our resource -->
+                        <acl>customer/list</acl>
+                    </list>
+                    <create translate="title" module="customer">
+                        <title>Create customer</title>
+                        <acl>customer/create</acl>
+                    </create>
+                    <info translate="title" module="customer">
+                        <title>Retrieve customer data</title>
+                        <acl>customer/info</acl>
+                    </info>
+                    <update translate="title" module="customer">
+                        <title>Update customer data</title>
+                        <acl>customer/update</acl>
+                    </update>
+                    <delete>
+                        <title>Delete customer</title>
+                        <acl>customer/delete</acl>
+                    </delete>
+                </methods>
+                <faults module="customer"> <!-- module="customer" specifies the module which will be used for translation. -->
+                    <data_invalid> <!-- if we get invalid input data for customers -->
+                        <code>100</code >
+                        <!-- we cannot know all the errors that can appear, their details can be found in error message for call -->
+                        <message>Invalid customer data. Details in error message.</message>
+                    </data_invalid>
+                    <filters_invalid>
+                        <code>101</code >
+                        <message>Invalid filters specified. Details in error message.</message>
+                    </filters_invalid>
+                    <not_exists>
+                        <code>102</code >
+                        <message>Customer doesn't exist.</message>
+                    </not_exists>
+                    <not_deleted>
+                        <code>103</code >
+                        <message>Customer was not deleted. Details in error message.</message>
+                    </not_deleted>
+                </faults>
+            </customer>
+        </resources>
+
+        <acl>
+            <resources>
+                <customer translate="title" module="customer">
+                    <title>Customers</title>
+                    <list translate="title" module="customer">
+                        <title>View All</title>
+                    </list>
+                    <create translate="title" module="customer">
+                        <title>Create</title>
+                    </create>
+                    <info translate="title" module="customer">
+                        <title>Get Info</title>
+                    </info>
+                    <update translate="title" module="customer">
+                        <title>Update</title>
+                    </update>
+                    <delete translate="title" module="customer">
+                        <title>Delete</title>
+                    </delete>
+                </customer>
+            </resources>
+        </acl>
+    </api>
+</config>
