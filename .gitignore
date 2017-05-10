@@ -39,4 +39,9 @@
 
 /.idea
 /.idea/*
+
+/apidoc
+/apidoc/*
+/apidoc.json
+
 Будет удалено cgi-bin/
