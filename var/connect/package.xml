@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+    <name>PintaMobileApi</name>
+    <version>1.0.1</version>
+    <stability>stable</stability>
+    <license>License</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>Module for Pinta Mobile Aplication</summary>
+    <description>This module for Pinta Mobile Aplication</description>
+    <notes>First Beta release</notes>
+    <authors><author><name>Pinta Web Ware</name><user>pinta</user><email>contacts@pinta.com.ua</email></author></authors>
+    <date>2017-05-10</date>
+    <time>15:11:11</time>
+    <contents><target name="magelocal"><dir name="Pinta"><dir name="Mobileapi"><dir name="Model"><file name="Mobileapi.php" hash="c4b6d01ac516f87846aebcbc2efa7753"/><file name="Observer.php" hash="0405c2e213fed46d39496155007a6784"/><dir name="Resource"><dir name="Mobileapi"><file name="Collection.php" hash="6aec71cfeb744bb59a0497a8d63ee8a1"/></dir><file name="Mobileapi.php" hash="b6536c0b395b91812afabfab6dba3bd5"/><dir name="Userdevicestoken"><file name="Collection.php" hash="2bcd68f9fed07ad13f3bdc753606aac6"/></dir><file name="Userdevicestoken.php" hash="acbe2992cb262005a93d2f0b70b25855"/></dir><file name="Userdevicestoken.php" hash="3b6c8ff77ee6fc0e48010df6cd7fc8d5"/></dir><dir name="controllers"><file name="IndexController.php" hash="832bf3f272f6466a4e37328359c3dd3c"/></dir><dir name="etc"><file name="config.xml" hash="d004eadbc13c457046aa3a788e0b063c"/></dir><dir name="sql"><dir name="pintamobileapi_setup"><file name="mysql4-install-0.0.1.php" hash="f4d5fc4b30e6991bf19d1ede58dece04"/></dir></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Pinta_Mobileapi.xml" hash="38296204ea5d1e06ecf5deff7fd4b546"/></dir></target></contents>
+    <compatible/>
+    <dependencies><required><php><min>5.6.29</min><max>7.0.0</max></php></required></dependencies>
+</package>

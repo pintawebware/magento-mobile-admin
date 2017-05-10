@@ -1,0 +1,85 @@
+<_>
+   <form_key>31FPasWpIge8t6cn</form_key>
+   <name>PintaMobileApi</name>
+   <channel>community</channel>
+   <version_ids>
+      <version_ids>2</version_ids>
+   </version_ids>
+   <summary>Module for Pinta Mobile Aplication</summary>
+   <description>This module for Pinta Mobile Aplication</description>
+   <license>License</license>
+   <license_uri/>
+   <version>1.0.1</version>
+   <stability>stable</stability>
+   <notes>First Beta release</notes>
+   <authors>
+      <name>
+         <name>Pinta Web Ware</name>
+      </name>
+      <user>
+         <user>pinta</user>
+      </user>
+      <email>
+         <email>contacts@pinta.com.ua</email>
+      </email>
+   </authors>
+   <depends_php_min>5.6.29</depends_php_min>
+   <depends_php_max>7.0.0</depends_php_max>
+   <depends>
+      <package>
+         <name>
+            <name/>
+         </name>
+         <channel>
+            <channel/>
+         </channel>
+         <min>
+            <min/>
+         </min>
+         <max>
+            <max/>
+         </max>
+         <files>
+            <files>        </files>
+         </files>
+      </package>
+      <extension>
+         <name>
+            <name>Core</name>
+         </name>
+         <min>
+            <min/>
+         </min>
+         <max>
+            <max/>
+         </max>
+      </extension>
+   </depends>
+   <contents>
+      <target>
+         <target>magelocal</target>
+         <target>magelocal</target>
+         <target>mageetc</target>
+      </target>
+      <path>
+         <path/>
+         <path>Pinta</path>
+         <path>modules/Pinta_Mobileapi.xml</path>
+      </path>
+      <type>
+         <type>file</type>
+         <type>dir</type>
+         <type>file</type>
+      </type>
+      <include>
+         <include/>
+         <include/>
+         <include/>
+      </include>
+      <ignore>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+      </ignore>
+   </contents>
+</_>
