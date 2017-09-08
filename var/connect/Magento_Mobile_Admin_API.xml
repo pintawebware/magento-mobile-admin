@@ -1,0 +1,85 @@
+<_>
+   <form_key>2h05pONQgUpDFEZT</form_key>
+   <name>Magento_Mobile_Admin_API</name>
+   <channel>community</channel>
+   <version_ids>
+      <version_ids>2</version_ids>
+   </version_ids>
+   <summary>API module for app Magento Mobile Admin</summary>
+   <description>Module creates a custom API for working with the mobile application Magento Mobile Admin. This module does not extend the functionality of Magento, but it allows you to view information about clients, goods and orders via a mobile application. Also it allow to manage push-notification when creating a new order.</description>
+   <license>GPL</license>
+   <license_uri/>
+   <version>2.0.2</version>
+   <stability>stable</stability>
+   <notes>Stable release</notes>
+   <authors>
+      <name>
+         <name>Pinta Web Ware</name>
+      </name>
+      <user>
+         <user>pinta</user>
+      </user>
+      <email>
+         <email>ruslan@pinta.com.ua</email>
+      </email>
+   </authors>
+   <depends_php_min>5.6.29</depends_php_min>
+   <depends_php_max>7.0.0</depends_php_max>
+   <depends>
+      <package>
+         <name>
+            <name/>
+         </name>
+         <channel>
+            <channel/>
+         </channel>
+         <min>
+            <min/>
+         </min>
+         <max>
+            <max/>
+         </max>
+         <files>
+            <files>       </files>
+         </files>
+      </package>
+      <extension>
+         <name>
+            <name>Core</name>
+         </name>
+         <min>
+            <min/>
+         </min>
+         <max>
+            <max/>
+         </max>
+      </extension>
+   </depends>
+   <contents>
+      <target>
+         <target>magelocal</target>
+         <target>magecommunity</target>
+         <target>mageetc</target>
+      </target>
+      <path>
+         <path/>
+         <path>Pinta</path>
+         <path>modules/Pinta_Mobileapi.xml</path>
+      </path>
+      <type>
+         <type>file</type>
+         <type>dir</type>
+         <type>file</type>
+      </type>
+      <include>
+         <include/>
+         <include/>
+         <include/>
+      </include>
+      <ignore>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+      </ignore>
+   </contents>
+</_>
