@@ -1,8 +1,18 @@
  Для установки модуля необходимо:
  
- 1. Отключить компиляцию (System->Tools->Compilation->Disable)
- 2. Отключить кеширование (System->Cache Management->Select All->Disable)
- 3. Открыть страницу для установки модуля (System->Magento Connect->Magento Connect Manager)
-     -в блоке Direct package file upload загрузить файл модуля и нажать Upload.
+ 1. Disable Compilation (System->Tools->Compilation->Disable)
+ ![step 1](./Resource/img/1.png)
+ 2. Disable Cache (System->Cache Management->Select All->Disable)
+ ![step 2](./Resource/img/2.png)
+ 3. Open page for install module (System->Magento Connect->Magento Connect Manager)
+     -in block "Direct package file upload" select file and click Upload.
+![step 4](./Resource/img/3.png)
+ 4. If there are no installation errors, you can use the module for the application.
 
- 4. Если нет ошибок установки, можно использовать модуль для приложения.
+ Installation is done.
+
+#### Use this link to download applications:
+ * [Google Play](https://play.google.com/store/apps/details?id=com.pinta.magento.magentomobileadmin)
+ * [AppStore](https://itunes.apple.com/ua/app/magento-mobile-admin/id1229150311?l=ru&mt=8)
+
+ For log in app, please, use **admin email** and password.
